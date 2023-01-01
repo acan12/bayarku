@@ -26,25 +26,67 @@ final router = GoRouter(
           routes: [
             GoRoute(
                 path: routeBoardingOne,
-                pageBuilder: (context, state) => MaterialPage(
-                    key: state.pageKey, child: const Boarding1Page())),
+                pageBuilder: (context, state) =>
+                    buildPageWithDefaultTransition<void>(
+                        context: context,
+                        state: state,
+                        child: const Boarding1Page())),
             GoRoute(
-              path: routeBoardingTwo,
-              pageBuilder: (context, state) => MaterialPage(
-                  key: state.pageKey, child: const Boarding2Page()),
-            ),
+                path: routeBoardingTwo,
+                pageBuilder: (context, state) =>
+                    buildPageWithSlideTransition<void>(
+                        context: context,
+                        state: state,
+                        child: const Boarding2Page())),
             GoRoute(
-              path: routeBoardingThree,
-              pageBuilder: (context, state) => MaterialPage(
-                  key: state.pageKey, child: const Boarding3Page()),
-            ),
+                path: routeBoardingThree,
+                pageBuilder: (context, state) =>
+                    buildPageWithSlideTransition<void>(
+                        context: context,
+                        state: state,
+                        child: const Boarding3Page())),
           ]),
       GoRoute(
           path: routeLogin,
-          pageBuilder: (context, state) =>
-              MaterialPage(key: state.pageKey, child: const LoginPage())),
+          pageBuilder: (context, state) => buildPageWithDefaultTransition<void>(
+              context: context, state: state, child: const LoginPage())),
     ],
     errorPageBuilder: (context, state) => MaterialPage(
           key: state.pageKey,
           child: ErrorPage(exception: state.error),
         ));
+
+CustomTransitionPage buildPageWithSlideTransition<T>({
+  required BuildContext context,
+  required GoRouterState state,
+  required Widget child,
+}) {
+  return CustomTransitionPage<T>(
+    key: state.pageKey,
+    child: child,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+        SlideTransition(
+            position: animation.drive(
+              Tween<Offset>(
+                begin: const Offset(1, 0),
+                end: Offset.zero,
+              ).chain(CurveTween(curve: Curves.easeIn)),
+            ),
+            child: child),
+  );
+}
+
+CustomTransitionPage buildPageWithDefaultTransition<T>({
+  required BuildContext context,
+  required GoRouterState state,
+  required Widget child,
+}) {
+  return CustomTransitionPage<T>(
+      key: state.pageKey,
+      child: child,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+          FadeTransition(
+            opacity: animation,
+            child: child,
+          ));
+}

@@ -9,20 +9,6 @@ import '../../../routes.dart';
 
 class SplashPage extends ConsumerStatefulWidget {
   const SplashPage({super.key});
-
-  // void startTimer(BuildContext context) {
-  //   Future.delayed(const Duration(seconds: 5), () {
-  //     context.push("$routeBoardingOne");
-  //     // Navigator.pushReplacement(context,
-  //     //     MaterialPageRoute(builder: (context) => const Boarding1Page()),
-  //     //     result: (Route<dynamic> route) => false);
-  //   });
-
-  //   // Timer(const Duration(seconds: 1), () {
-  //   //   context.go("/$routeBoardingOne");
-  //   // });
-  // }
-
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _SplashPageState();
 }
